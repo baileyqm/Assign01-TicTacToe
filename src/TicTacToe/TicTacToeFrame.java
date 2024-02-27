@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 public class TicTacToeFrame extends JFrame {
     private JPanel mainPnl = new JPanel();
@@ -19,9 +18,6 @@ public class TicTacToeFrame extends JFrame {
     JButton clearBtn;
     JButton quitBtn;
 
-    boolean finished = false;
-    static boolean playing = true;
-    Scanner in = new Scanner(System.in);
     static int moveCnt = 0;
      static int row = -1;
      static int col = -1;
@@ -62,7 +58,6 @@ private static void gamePlayer(){
         col = buttonClicked.getCol();
 
         moveCnt++;
-        System.out.println(moveCnt);
 
         if (moveCnt >= MOVES_FOR_WIN) {
             if (isWin(player)) {
