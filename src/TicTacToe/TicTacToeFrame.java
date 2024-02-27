@@ -62,21 +62,45 @@ private static void gamePlayer(){
         col = buttonClicked.getCol();
 
         moveCnt++;
+        System.out.println(moveCnt);
 
         if (moveCnt >= MOVES_FOR_WIN) {
             if (isWin(player)) {
-                JOptionPane.showMessageDialog(gamePnl, "Player " + player + " wins!");
+                if (JOptionPane.showConfirmDialog(gamePnl,"Player " + player + " wins! Do you want to play another round?","The game has come to an end...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0){
+                    clearBoard();
+                    player = "O";
+                }else {
+                    shutdownSequence();
+                }
                 clearBoard();
                 //System.out.println("Player " + player + " wins!");
             }
         }
         if (moveCnt >= MOVES_FOR_TIE) {
             if (isTie()) {
-                JOptionPane.showMessageDialog(gamePnl, "It's a Tie!");
-                clearBoard();
+                if (moveCnt < 9){
+                    if(JOptionPane.showConfirmDialog(gamePnl,"It's a partial-board tie! Do you want to play another round?","The game has come to an end...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0){
+                        clearBoard();
+                        player = "O";
+                    }else
+                    {
+                      shutdownSequence();
+                    }
+
+                }else {
+                    if(JOptionPane.showConfirmDialog(gamePnl,"It's a full-board tie! Do you want to play another round?","The game has come to an end...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0){
+                        clearBoard();
+                        player = "O";
+                    }else
+                    {
+                        shutdownSequence();
+                    }
+                }
+
                 //System.out.println("It's a Tie!");
             }
         }
+
         if (player.equals("X")) {
             player = "O";
         } else {
@@ -284,14 +308,20 @@ private static boolean isTie()
 
         clearBtn.addActionListener(e -> {
             clearBoard();
+            player = "X";
         });
         quitBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(gamePnl, "Catch you on the flip side, where we'll battle it out again in the realm of Xs and Os. Adios, tic-tac-toe amigo!","Good Bye!",JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            shutdownSequence();
         });
     }
 
+    public static void shutdownSequence(){
+        JOptionPane.showMessageDialog(gamePnl, "Catch you on the flip side, where we'll battle it out again in the realm of Xs and Os. Adios, tic-tac-toe amigo!","Good Bye!",JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+    }
+
     public static void clearBoard(){
+        moveCnt = 0;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 board[row][col].setText(" ");
